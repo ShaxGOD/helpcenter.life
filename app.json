@@ -1,0 +1,27 @@
+{
+  "expo": {
+    "name": "helpcenter",
+    "slug": "helpcenter",
+    "version": "1.0.0",
+    "orientation": "portrait",
+    "icon": "./app/assets/hcl4.png",
+    "splash": {
+      "image": "./app/assets/helpcenter.life.png",
+      "resizeMode": "contain",
+      "backgroundColor": "#ffffff"
+    },
+    "updates": {
+      "fallbackToCacheTimeout": 0
+    },
+    "assetBundlePatterns": [
+      "**/*"
+    ],
+    "ios": {
+      "supportsTablet": true
+    },
+    "web": {
+      "favicon": "./app/assets/assets/helpcenter.life.png"
+    },
+    "description": ""
+  }
+}
