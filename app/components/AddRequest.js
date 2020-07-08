@@ -185,7 +185,7 @@ const styles = ({
         marginTop: 10,
         fontSize: 17,
         height: 70,
-        marginBottom: 8
+
 
     }
 

@@ -1,5 +1,5 @@
-import React, { useState } from 'react';
-import { StyleSheet, Text, View, SafeAreaView, TouchableOpacity } from 'react-native';
+import React from 'react';
+import { StyleSheet, Text, View, TouchableHighlight, Modal, Image, TouchableOpacity } from 'react-native';
 import { AppLoading } from 'expo'
 import * as Font from 'expo-font'
 
@@ -8,23 +8,87 @@ const getFonts = () => Font.loadAsync({
     'nunitoBlack': require('./assets/Fonts/Nunito-Black.ttf'),
 })
 
-export default function Header() {
-    const [fontsLoaded, setFontsLoaded] = useState(false)
-    if (fontsLoaded) {
-        return (
-            <SafeAreaView style={styles.header}>
-                <Text style={styles.icon}>helpcenter.life</Text>
-            </SafeAreaView>
-        );
+export default class Header extends React.Component {
+    // const [fontsLoaded, setFontsLoaded] = useState(false)
+    constructor(props) {
+        super(props);
+        this.state = {
+            fontsLoaded: false,
+            pickerSelection: 'rus',
+            pickerDisplayed: false,
+        }
     }
-    else {
-        return (
-            <AppLoading startAsync={getFonts}
-                onFinish={() => setFontsLoaded(true)}
-            />
-        )
+    setPickerValue(newValue) {
+        this.setState({ pickerSelection: newValue });
+        this.togglePicker();
     }
 
+    togglePicker() {
+        this.setState({
+            pickerDisplayed: !this.state.pickerDisplayed
+        })
+    }
+    render() {
+
+        const pickerValues = [
+            {
+                title: 'Rus',
+                value: 'rus',
+                img: require("./assets/rus.png")
+            },
+            {
+                title: 'Kaz',
+                value: 'kaz',
+                img: require("./assets/kaz.png")
+            },
+            {
+                title: 'Uzb',
+                value: 'uzb',
+                img: require("./assets/uzb.png")
+            }
+
+        ]
+        if (this.state.fontsLoaded) {
+
+
+            return (
+                <View style={styles.header}>
+                    <View>
+                        <Text style={styles.icon}>helpcenter.life</Text>
+                    </View>
+
+                    <View style={{ backgroundColor: 'blue', width: 95, height: 36, borderRadius: 25 }}>
+                        <TouchableOpacity onPress={() => this.togglePicker()}>
+
+                            <Text>{this.state.pickerSelection}</Text>
+                        </TouchableOpacity>
+                    </View>
+                    <Modal visible={this.state.pickerDisplayed} transparent={true} >
+                        <View style={{ margin: 2, padding: 2, backgroundColor: 'red', borderRadius: 25, width: 96, height: 37, }}>
+                            <Text style={{ fontWeight: 'bold', alignItems: "center" }}>Выберите страну</Text>
+                            {pickerValues.map((item, index) => {
+                                return <TouchableHighlight key={index} onPress={() => this.setPickerValue(item.value)} style={{ paddingTop: 4, paddingBottom: 5, alignItems: "center" }}>
+                                    <View style={{ justifyContent: 'space-around', flexDirection: 'row', }}>
+                                        <Image source={item.img} />
+                                        <Text>{item.title}</Text>
+                                    </View>
+                                </TouchableHighlight>
+                            })}
+                        </View>
+
+                    </Modal>
+
+                </View>
+            );
+        }
+        else {
+            return (
+                <AppLoading startAsync={getFonts}
+                    onFinish={() => this.setState({ fontsLoaded: true })}
+                />
+            )
+        }
+    }
 }
 const styles = StyleSheet.create({
 
@@ -33,6 +97,7 @@ const styles = StyleSheet.create({
         height: '10%',
         justifyContent: "space-between",
         flexDirection: 'row',
+
     },
     icon: {
         fontSize: 24,
