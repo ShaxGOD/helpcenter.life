@@ -7,6 +7,7 @@ import FlatButton from '../buttonOnSubmit.js'
 import * as Font from 'expo-font'
 import { AppLoading } from 'expo'
 import CheckBoxItem from '../CheckBoxItem'
+
 const getFonts = () => Font.loadAsync({
     'nunitoBlack': require('../assets/Fonts/Nunito-Black.ttf'),
     'nunitoRegular': require('../assets/Fonts/Nunito-Regular.ttf'),
@@ -60,18 +61,27 @@ export default class AddRequest extends React.Component {
     onChangeAgree() {
         this.setState({ isAgree: !this.state.isAgree });
     }
-    Forms = () => {
-        const FormData = {
-            region: this.state.userCity,
-            text: this.state.userText,
-            private_text: this.state.userPrivateText,
-            author_name: this.state.userName,
-            author_phone: this.state.userPhone,
-            contact_types: this.state.selectedBoxes
+    _postData = async () => {
+        try {
+            fetch('http://helpcenter.greenhub.kz/kaz/ru/api/v1/materials/list', {
+                method: 'POST',
+                headers: {
+                    'Accept': 'application/json',
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({
+                    region: this.state.userCity,
+                    text: this.state.userText,
+                    private_text: this.state.userPrivateText,
+                    author_name: this.state.userName,
+                    author_phone: this.state.userPhone,
+                    contact_types: this.state.selectedBoxes
+                })
+            }).then(alert('Ваша заявка доставлено!'))
+        } catch (e) {
+            alert(e)
         }
-
     }
-
     render() {
         const { response } = this.state;
         if (this.state.fontsLoaded) {
@@ -104,7 +114,7 @@ export default class AddRequest extends React.Component {
                                 checked={this.state.isAgree}
                                 onPress={this.onChangeAgree.bind(this)}
                             />
-                            <FlatButton text='Отправить' onPress={this.Forms} />
+                            <FlatButton text='Отправить' onPress={this._postData} />
                         </View>
                     </ScrollView>
                 </SafeAreaView>

@@ -9,7 +9,7 @@ const getFonts = () => Font.loadAsync({
 })
 
 export default class Header extends React.Component {
-    // const [fontsLoaded, setFontsLoaded] = useState(false)
+
     constructor(props) {
         super(props);
         this.state = {
@@ -59,7 +59,6 @@ export default class Header extends React.Component {
 
                     <View style={{ backgroundColor: 'blue', width: 95, height: 36, borderRadius: 25 }}>
                         <TouchableOpacity onPress={() => this.togglePicker()}>
-
                             <Text>{this.state.pickerSelection}</Text>
                         </TouchableOpacity>
                     </View>
@@ -75,7 +74,6 @@ export default class Header extends React.Component {
                                 </TouchableHighlight>
                             })}
                         </View>
-
                     </Modal>
 
                 </View>
